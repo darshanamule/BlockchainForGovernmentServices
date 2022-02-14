@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <div class="container" style="margin-top: 50px;">
+    </div>
+    <table class="table table-borderless container">
+        <thead>
+            <tr>
+                <td>
+                    <h5>
+                        <p>Unique ID:</p>
+                    </h5>
+                    <p class="label label-info" id="_uniqueIdBank"><%= uniqueId %></p>
+                </td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <div>
+                    <td>
+                        <label for="_bank">Bank name :</label>
+                        <p class="label label-info" id="_bank"><%= bankDetails.bankName %></p>
+                    </td>
+                </div>
+            </tr>
+            <tr>
+                <div>
+                    <td> 
+                        <label for="_branch">Branch :</label>
+                        <p class="label label-info" id="_branch"><%= bankDetails.branch %></p>
+                    </td>
+                </div>
+            </tr>
+            <tr>
+                <div>
+                    <td><label for="_account">Account no. :</label>
+                        <p class="label label-info" id="_account"><%= bankDetails.acNo %></p>
+                    </td>
+                </div>
+            </tr>
+            <tr>
+                <div>
+                    <td> <label for="_IFSC">ifsc code :</label>
+                        <p class="label label-info" id="_IFSC"><%= bankDetails.ifscCode %></p>
+                    </td>
+                </div>
+            </tr>
+            
+            
+        </tbody>
+    </table>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>

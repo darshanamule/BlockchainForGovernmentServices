@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <div class="container" style="margin-top: 50px;">
+    </div>
+    <table class="table table-borderless container">
+        <thead>
+            <tr>
+                <td>
+                    <h4 style="text-align:right;">
+                        <button class="btn btn-primary" type="submit">Education details</button>
+                </td>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <td>
+                    <h4>
+                        Unique ID:
+                        <input type="text" value="" name="uniqueid" id="myuniqueid">
+                    </h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <div>
+                    <td><label for=" name">Name :</label>
+                        <!-- label tag help to directly selet the box bt clicking on the name  -->
+                        <!-- the name of the lable shall be same as that of the name of the id -->
+                        <input type="text" value="" name="Name" id="name2">
+                    </td>
+                    <!-- input:text to access this form -->
+                </div>
+            </tr>
+            <tr>
+                <div>
+                    <td> <label for=" BOARD NAME">Board :</label>
+                        <!-- label tag help to directly selet the box bt clicking on the name  -->
+                        <!-- the name of the lable shall be same as that of the name of the id -->
+                        <input type="text" value="" name="Board" id="BOARD NAME">
+                    </td>
+                    <!-- input:text to access this form -->
+
+                </div>
+            </tr>
+            <tr>
+                <div>
+                    <td> <label for=" nameofcourse">Course :</label>
+                        <!-- label tag help to directly selet the box bt clicking on the name  -->
+                        <!-- the name of the lable shall be same as that of the name of the id -->
+                        <input type="text" value="" name="Course" id="nameofcourse">
+                    </td>
+                </div>
+            </tr>
+            <tr>
+                <div>
+                    <td> <label for=" year of edu">Year :</label>
+                        <!-- label tag help to directly selet the box bt clicking on the name  -->
+                        <!-- the name of the lable shall be same as that of the name of the id -->
+                        <input type="text" value="" name="Year" id="year of edu">
+                    </td>
+                </div>
+            </tr>
+            <tr>
+                <div>
+                    <td><label for=" SEAT">Seat no.:</label>
+                        <!-- label tag help to directly selet the box bt clicking on the name  -->
+                        <!-- the name of the lable shall be same as that of the name of the id -->
+                        <input type="text" value="" name="Seat no." id="SEAT">
+                    </td>
+                </div>
+            </tr>
+            <tr>
+                <div>
+                    <td> <label for=" percent">Percentage :</label>
+                        <!-- label tag help to directly selet the box bt clicking on the name  -->
+                        <!-- the name of the lable shall be same as that of the name of the id -->
+                        <input type="text" value="" name="Percentage" id="percent">
+                    </td>
+                </div>
+            </tr>
+
+            <tr>
+                <div>
+                    <td>
+                        <H5>PLEASE CONFIRM</H5>
+                        <label for="Details confirmation"> Have you added the details correctly?</label>
+                        <select name="myGovernmentdetails" id="Details confirmation">
+                            <option value="YES">YES</option>
+                            <option value="NO" Selected>NO </option>
+                            <!-- use selected tag to selct that as a primary -->
+                        </select>
+                    </td>
+                </div>
+            </tr>
+            <tr>
+                <div class="button">
+                    <td> <input class="btn btn-primary" style="text-align:right" type="submit" value="Submit">
+                        <input class="btn btn-primary" type="reset" value="Reset">
+                    </td>
+                </div>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>
