@@ -1,11 +1,10 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.5.0 <0.9.0;
-pragma experimental ABIEncoderV2;
 
 contract AccessControl {
     mapping(address => viewPermission) userViewPermissions;
     mapping(address => fillPermission) fillPermissions;
-    address private owner = msg.sender;
+    address public owner = msg.sender;
 
     struct viewPermission {
         mapping(address => bool) user;
@@ -160,6 +159,16 @@ contract GovDetails is AccessControl {
     // Grant Fill rights
     function grantGovernmentDetailsFillPermisssionLoc(address org) external {
         super.grantGovernmentDetailsFillPermisssion(org);
+    }
+
+    // Check View Rights
+    function checkViewRights(address ofPerson) public view returns (bool status) {
+        return userViewPermissions[ofPerson].user[msg.sender] == true || ofPerson == msg.sender;
+    }
+
+    // Check Fill Rights
+    function checkFillRights() public view returns (bool status) {
+        return fillPermissions[msg.sender].governmentDetails == true;
     }
 
     // retrieveDocuments
@@ -356,6 +365,16 @@ contract EduDetails is AccessControl {
         super.grantEducationDetailsFillPermisssion(org);
     }
 
+    // Check View Rights
+    function checkViewRights(address ofPerson) public view returns (bool status) {
+        return userViewPermissions[ofPerson].user[msg.sender] == true || ofPerson == msg.sender;
+    }
+
+    // Check Fill Rights
+    function checkFillRights() public view returns (bool status) {
+        return fillPermissions[msg.sender].educationDetails == true;
+    }
+
     // retrieve Edu details
     function retrieveED(address ofPerson, uint256 i)
         public
@@ -437,6 +456,16 @@ contract MedicalDetails is AccessControl {
         super.grantMedicalDetailsFillPermisssion(org);
     }
 
+    // Check View Rights
+    function checkViewRights(address ofPerson) public view returns (bool status) {
+        return userViewPermissions[ofPerson].user[msg.sender] == true || ofPerson == msg.sender;
+    }
+
+    // Check Fill Rights
+    function checkFillRights() public view returns (bool status) {
+        return fillPermissions[msg.sender].medicalDetails == true;
+    }
+
     // retrieve Medical details
     function retrieveMD(address ofPerson)
         public
@@ -511,6 +540,16 @@ contract BankDetails is AccessControl {
         super.grantBankDetailsFillPermisssion(org);
     }
 
+    // Check View Rights
+    function checkViewRights(address ofPerson) public view returns (bool status) {
+        return userViewPermissions[ofPerson].user[msg.sender] == true || ofPerson == msg.sender;
+    }
+
+    // Check Fill Rights
+    function checkFillRights() public view returns (bool status) {
+        return fillPermissions[msg.sender].bankDetails == true;
+    }
+
     // retrieve Bank details
     function retrieveBD(address ofPerson)
         public
@@ -561,6 +600,16 @@ contract BusinessDetails is AccessControl {
     // Grant Fill rights
     function grantBussinessDetailsFillPermisssionLoc(address org) external {
         super.grantBussinessDetailsFillPermisssion(org);
+    }
+
+    // Check View Rights
+    function checkViewRights(address ofPerson) public view returns (bool status) {
+        return userViewPermissions[ofPerson].user[msg.sender] == true || ofPerson == msg.sender;
+    }
+
+    // Check Fill Rights
+    function checkFillRights() public view returns (bool status) {
+        return fillPermissions[msg.sender].bussinessDetails == true;
     }
 
     // retrieve Business details

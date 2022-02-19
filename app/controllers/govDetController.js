@@ -4,28 +4,34 @@ const { GovDetContract } = require("../web3/web3Config")
 
 function govDetailsController() {
     return {
-        // ------- Granting Permissions -------
-        grantViewPermission(req, res) {
-            const { to_address } = req.body;
-            const from_address = req.headers.auth;
-            GovDetContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address }).then((response) => {
-                res.json(response)
-            }).catch(err => res.json(err));
-        },
 
-        grantGovernmentDetailsFillPermisssion(req, res) {
-            const { to_address } = req.body;
-            const from_address = req.headers.auth;
-            // from_address should be of owner for successful transaction
-            GovDetContract.methods.grantGovernmentDetailsFillPermisssionLoc(to_address).send({ from: from_address }).then((response) => {
-                res.json(response)
-            }).catch(err => res.json(err));
+        loadGovDetails(req, res){
+            let to_address;
+
+            if(!req.params.id){
+                to_address = req.headers.auth;
+            } else {
+                to_address = req.params.id;
+            }
+
+            res.render('govDetails', { uniqueId: to_address })
         },
 
         // -------- Birth Certificate ----------
+        loadBirthDetailsForm(req, res){
+            const uniqueId = req.params.uniqueId;
+            res.render('formsFill/govDetFill/fillBirthDetails', { uniqueId });
+        },
 
         retrieveBirthDetails(req, res) {
-            const to_address = req.params.id;
+            let to_address;
+
+            if(!req.params.id){
+                to_address = req.headers.auth;
+            } else {
+                to_address = req.params.id;
+            }
+
             const from_address = req.headers.auth;
             GovDetContract.methods.retrieveBC(to_address).call({ from: from_address }).then((response) => {
                 const birthDetails = {
@@ -37,7 +43,7 @@ function govDetailsController() {
                     nameOfMother: response.nameOfMother,
                     dateOfRegistration: response.dateOfRegistration
                 }
-                res.json(birthDetails)
+                res.render('formsGET/govDetGET/getBirthDetails', { birthDetails: birthDetails, uniqueId: to_address})
             }).catch(err => res.json(err));
         },
 
@@ -61,14 +67,25 @@ function govDetailsController() {
                 nameOfFather,
                 nameOfMother,
                 dateOfRegistration, to_address).send({ from: from_address, gas: 3000000 }).then((response) => {
-                    res.json(response)
+                    res.redirect(`/birthDetails/${to_address}`);
                 }).catch(err => res.json(err));
         },
 
         // -------- Domicile Certificate ----------
+        loadDomicileDetailsForm(req, res){
+            const uniqueId = req.params.uniqueId;
+            res.render('formsFill/govDetFill/fillDomicileDetails', { uniqueId });
+        },
 
         retrieveDomicileDetails(req, res) {
-            const to_address = req.params.id;
+            let to_address;
+
+            if(!req.params.id){
+                to_address = req.headers.auth;
+            } else {
+                to_address = req.params.id;
+            }
+
             const from_address = req.headers.auth;
             GovDetContract.methods.retrieveDC(to_address).call({ from: from_address }).then((response) => {
                 const domicileDetails = {
@@ -77,7 +94,7 @@ function govDetailsController() {
                     serialNo: response.serialNo,
                     district: response.district
                 }
-                res.json(domicileDetails)
+                res.render('formsGET/govDetGET/getDomicileDetails', { domicileDetails: domicileDetails, uniqueId: to_address})
             }).catch(err => res.json(err));
         },
 
@@ -87,14 +104,25 @@ function govDetailsController() {
             const { name, state, serialNo, district } = req.body;
 
             GovDetContract.methods.insertDC(name, state, Number(serialNo), district, to_address).send({ from: from_address, gas: 3000000 }).then((response) => {
-                res.json(response)
+                res.redirect(`/domicileDetails/${to_address}`);
             }).catch(err => res.json(err));
         },
 
         // -------- Income Certificate ----------
+        loadIncomeDetailsForm(req, res){
+            const uniqueId = req.params.uniqueId;
+            res.render('formsFill/govDetFill/fillIncomeDetails', { uniqueId });
+        },
 
         retrieveIncomeDetails(req, res) {
-            const to_address = req.params.id;
+            let to_address;
+
+            if(!req.params.id){
+                to_address = req.headers.auth;
+            } else {
+                to_address = req.params.id;
+            }
+
             const from_address = req.headers.auth;
             GovDetContract.methods.retrieveIC(to_address).call({ from: from_address }).then((response) => {
                 const incomeDetails = {
@@ -105,7 +133,7 @@ function govDetailsController() {
                     year: response.year,
                     annualIncome: response.annualIncome
                 }
-                res.json(incomeDetails)
+                res.render('formsGET/govDetGET/getIncomeDetails', { incomeDetails: incomeDetails, uniqueId: to_address})
             }).catch(err => res.json(err));
         },
 
@@ -129,14 +157,25 @@ function govDetailsController() {
                 year,
                 annualIncome,
                 to_address).send({ from: from_address, gas: 3000000 }).then((response) => {
-                    res.json(response)
+                    res.redirect(`/incomeDetails/${to_address}`);
                 }).catch(err => res.json(err));
         },
 
         // -------- Caste Certificate ----------
+        loadCasteDetailsForm(req, res){
+            const uniqueId = req.params.uniqueId;
+            res.render('formsFill/govDetFill/fillCasteDetails', { uniqueId });
+        },
 
         retrieveCasteDetails(req, res) {
-            const to_address = req.params.id;
+            let to_address;
+
+            if(!req.params.id){
+                to_address = req.headers.auth;
+            } else {
+                to_address = req.params.id;
+            }
+
             const from_address = req.headers.auth;
             GovDetContract.methods.retrieveCC(to_address).call({ from: from_address }).then((response) => {
                 const casteDetails = {
@@ -146,7 +185,8 @@ function govDetailsController() {
                     to: response.to,
                     caste: response.caste
                 }
-                res.json(casteDetails)
+                res.render('formsGET/govDetGET/getCasteDetails', { casteDetails: casteDetails, uniqueId: to_address})
+                // res.json(casteDetails)
             }).catch(err => res.json(err));
         },
 
@@ -156,7 +196,7 @@ function govDetailsController() {
             const { daughter_son_of, district, tahsil, to, caste } = req.body;
 
             GovDetContract.methods.insertCC(daughter_son_of, district, tahsil, to, caste, to_address).send({ from: from_address, gas: 3000000 }).then((response) => {
-                res.json(response)
+                res.redirect(`/casteDetails/${to_address}`);
             }).catch(err => res.json(err));
         },
 

@@ -1,4 +1,6 @@
 
+// window.addEventListener('load', handleUpdated);
+
 detectEthereumProvider().then(async (provider) => {
 
   if (provider) {
@@ -47,18 +49,28 @@ function startApp(provider) {
   currElem.innerText = currentAccount;
 }
 
-function getDetails(toForm) {
-  if (currentAccount === null) {
-    alert('Please Login')
-  } else {
-    const ofUser = userSeen === null ? currentAccount : userSeen;
+ethereum.on('accountsChanged', (accounts) => {
+  if (accounts.length === 0) {
+    // MetaMask is locked or the user has not connected any accounts
+    console.log('Please connect to MetaMask.');
+  } else if (accounts[0] !== currentAccount) {
+    currentAccount = accounts[0];
+    // Do any other work!
+    console.log(currentAccount)
 
-    if (toForm === 'bankDetails') {
-      fetch(`http://localhost:8000/bankDetails/${ofUser}`,
-        { headers: { 'auth': currentAccount } })
-        .then(response => document.write(response))
-        .catch(err => console.log(err))
-    }
+    console.log('cookies:')
+    document.cookie = `auth=${currentAccount}`;
+    console.log(document.cookie)
+  }
+  const currElem = document.getElementById('currAcc');
+  currElem.innerText = currentAccount;
+} );
+
+function validateForm() {
+  let x = document.getElementById('detailsConfirmation').value;
+  if (x === "NO") {
+    alert("Please fill the details carefully ");
+    return false;
   }
 }
 

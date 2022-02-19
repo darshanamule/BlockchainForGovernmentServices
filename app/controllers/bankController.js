@@ -4,21 +4,10 @@ const { BankContract } = require("../web3/web3Config")
 
 function bankDetailsController() {
     return {
-        async grantViewPermission(req, res) {
-            const { to_address } = req.body;
-            const from_address = req.headers.auth;
-            BankContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address }).then((response) => {
-                res.json(response)
-            }).catch(err => res.json(err));
-        },
 
-        async grantBankDetailsFillPermisssion(req, res) {
-            const { to_address } = req.body;
-            const from_address = req.headers.auth;
-            // from_address should be of owner for successful transaction
-            BankContract.methods.grantBankDetailsFillPermisssionLoc(to_address).send({ from: from_address }).then((response) => {
-                res.json(response)
-            }).catch(err => res.json(err));
+        loadBankDetailsForm(req, res) {
+            const uniqueId = req.params.uniqueId;
+            res.render('formsFill/fillBankDetails', { uniqueId });
         },
 
         async retrieveBankDetails(req, res) {
@@ -45,9 +34,11 @@ function bankDetailsController() {
         async insertBankDetails(req, res) {
             const { to_address } = req.body;
             const from_address = req.headers.auth;
+            console.log(from_address)
+            console.log(to_address)
             const { ifscCode, acNo, bankName, branch } = req.body;
             BankContract.methods.insertBD(ifscCode, acNo, bankName, branch, to_address).send({ from: from_address, gas: 3000000 }).then((response) => {
-                res.json(response)
+                res.redirect(`/bankDetails/${to_address}`);
             }).catch(err => res.json(err));
         }
     }

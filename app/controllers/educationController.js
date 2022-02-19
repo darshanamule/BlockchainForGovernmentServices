@@ -4,33 +4,29 @@ const { EducationContract } = require("../web3/web3Config")
 
 function educationDetailsController() {
     return {
-        grantViewPermission(req, res) {
-            const { to_address } = req.body;
-            const from_address = req.headers.auth;
-            EducationContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address }).then((response) => {
-                res.json(response)
-            }).catch(err => res.json(err));
-        },
 
-        grantEducationDetailsFillPermisssion(req, res) {
-            const { to_address } = req.body;
-            const from_address = req.headers.auth;
-            // from_address should be of owner for successful transaction
-            EducationContract.methods.grantEducationDetailsFillPermisssionLoc(to_address).send({ from: from_address }).then((response) => {
-                res.json(response)
-            }).catch(err => res.json(err));
+        loadEduDetailsForm(req, res){
+            const uniqueId = req.params.uniqueId;
+            res.render('formsFill/fillEduDetails', { uniqueId });
         },
 
         async retrieveEduDetails(req, res) {
-            const to_address = req.params.id;
+
+            if(!req.params.id){
+                to_address = req.headers.auth;
+            } else {
+                to_address = req.params.id;
+            }
+
             const from_address = req.headers.auth;
             let cnt = 0;
             let eduDetails = []
 
-            EducationContract.methods.retLength(to_address).call().then(async (cntValue) => {
+            EducationContract.methods.retLength(to_address).call({ from: from_address }).then(async (cntValue) => {
                 cnt = Number(cntValue);
                 if(cnt === 0){
-                    res.json({ empty: "No data Exists"})
+                    // res.json({ empty: "No data Exists"})
+                    res.render('formsGET/getEduDetails', {eduDetails: [], uniqueId: to_address})
                 } else {
                     for(let i = 0; i < cnt; i++){
                         const response = await EducationContract.methods.retrieveED(to_address, i).call({ from: from_address })
@@ -42,9 +38,9 @@ function educationDetailsController() {
                             seatNo: response.seatNo, 
                             percentage: response.percentage
                         })
-    
                     }
-                    res.json(eduDetails)
+                    // res.json(eduDetails)
+                    res.render('formsGET/getEduDetails', {eduDetails: eduDetails, uniqueId: to_address})
                 }
             })
             .catch(err => res.json(err));
@@ -56,7 +52,7 @@ function educationDetailsController() {
             const from_address = req.headers.auth;
             const { board, name, course, year, stNo, percentage } = req.body;
             EducationContract.methods.insertED(board, name, course, year, stNo, percentage, to_address).send({ from: from_address, gas: 3000000 }).then((response) => {
-                res.send(response)
+                res.redirect(`/eduDetails/${to_address}`);
             }).catch(err => res.send(err));
         }
     }

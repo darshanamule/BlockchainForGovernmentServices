@@ -15,21 +15,28 @@
     </div>
 
     <div class="container">
-        
-        <img src="/images/Profile.png" class="card-img-1" style="height: 150px; width: 150px; margin: left 50px;"
-            alt="profile">
+        <div class="card text-center" style="width: 18rem;">
+            <img src="/images/Profile.png" class="card-img-top" alt="profile">
 
-        <p>Unique Id: <%= uniqueId %></p>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Unique Id: <%= uniqueId %>
+                </li>
+            </ul>
 
-        <div class="card-body">
-            <a href="/home/<%= uniqueId %>" class="btn btn-primary">
-                View Profile
-            </a>
+            <div class="d-inline-flex justify-content-around card-body">
+                <a href="/home/<%= uniqueId %>" class="card-link btn btn-success">View Profile</a>
+                <form action="/requestSent" method="POST">
+                    <input type="text" hidden name="sent_to" value="<%= uniqueId %>">
+                    <button type="submit" class="card-link btn btn-danger">Request</button>
+                </form>
+            </div>
+
         </div>
+
     </div>
-        <footer>
-            <%- include('../partials/footer'); %>
-        </footer>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
 
 </body>
 

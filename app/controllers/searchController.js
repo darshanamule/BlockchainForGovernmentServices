@@ -1,4 +1,3 @@
-const { rawListeners } = require("../models/request");
 
 function searchController(){
     return {

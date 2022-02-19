@@ -1,5 +1,5 @@
 const Request = require('../models/request')
-const { BankContract, BusinessContract, GovDetContract, EducationContract, MedicalContract } = require("../web3/web3Config")
+const { BankContract, BusinessContract, GovDetContract, EducationContract, MedicalContract, AccessContract } = require("../web3/web3Config")
 
 function requestsController() {
     return {
@@ -9,18 +9,18 @@ function requestsController() {
                 const sent_to = req.body.sent_to;
 
                 const senderDoc = await Request.findOneAndUpdate(
-                    { address: senderAddress },
-                    { $push: { sent: sent_to } },
+                    { address: senderAddress.toLowerCase() },
+                    { $push: { sent: sent_to.toLowerCase() } },
                     { new: true, upsert: true }
                 );
 
                 const receiverDoc = await Request.findOneAndUpdate(
-                    { address: sent_to },
-                    { $push: { received: senderAddress } },
+                    { address: sent_to.toLowerCase() },
+                    { $push: { received: senderAddress.toLowerCase() } },
                     { new: true, upsert: true }
                 );
 
-                res.status(200).json("success")
+                res.status(200).redirect("/sentRequests")
                 // res.json(senderDoc, receiverDoc)
 
             } catch (err) {
@@ -32,12 +32,13 @@ function requestsController() {
             try {
                 const address = req.headers.auth;
 
-                const requestsObj = await Request.find(
-                    { address: address },
+                const requestsObj = await Request.findOne(
+                    { address: new RegExp(`^${address}$`, 'i') },
                 );
 
                 // res.status(200).json("success")
-                res.json(requestsObj)
+                res.render('requests/sent', 
+                {sentArr : requestsObj===null?[] : requestsObj.sent})
 
             } catch (err) {
                 res.json(err)
@@ -48,14 +49,23 @@ function requestsController() {
             try {
                 const address = req.headers.auth;
 
-                const requestsObj = await Request.find(
-                    { address: address },
+                ownerAddress = await AccessContract.methods.owner().call();
+
+                const requestsObj = await Request.findOne(
+                    { address: new RegExp(`^${address}$`, 'i') },
                 );
 
                 // res.status(200).json("success")
-                res.json(requestsObj)
+                if(ownerAddress.toLowerCase() === address.toLowerCase()){
+                    res.render('requests/received', 
+                    {receivedArr : requestsObj===null?[] : requestsObj.received, owner: true})
+                } else {
+                    res.render('requests/received', 
+                    {receivedArr : requestsObj===null?[] : requestsObj.received, owner: false})
+                } 
 
             } catch (err) {
+                console.log(err)
                 res.json(err)
             }
         },
@@ -66,14 +76,16 @@ function requestsController() {
                 const { to_address, per_type } = req.body;  // kiski accept ki
 
                 if (per_type === "view") {
-                    medResponse = await MedicalContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
-                    govResponse = await GovDetContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
-                    eduResponse = await EducationContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
-                    busResponse = await BusinessContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
-                    bankResponse = await BankContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
+                    try {
+                        console.log("Calling Contracts")
+                        medResponse = await MedicalContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
+                        govResponse = await GovDetContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
+                        eduResponse = await EducationContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
+                        busResponse = await BusinessContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
+                        bankResponse = await BankContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address });
 
                     const afterAccepted1 = await Request.findOneAndUpdate(
-                        { address: from_address },
+                        { address: new RegExp(`^${from_address}$`, 'i') },
                         {
                             $pullAll: {
                                 received: [to_address],
@@ -85,7 +97,7 @@ function requestsController() {
                     console.log(afterAccepted1)
 
                     const afterAccepted2 = await Request.findOneAndUpdate(
-                        { address: to_address },
+                        { address: new RegExp(`^${to_address}$`, 'i') },
                         {
                             $pullAll: {
                                 sent: [from_address],
@@ -96,8 +108,11 @@ function requestsController() {
 
                     console.log(afterAccepted2)
 
-                    res.json("success")
+                    res.redirect('/receivedRequests')
                     // res.json(afterAccepted1, afterAccepted2)
+                } catch (error) {
+                    res.json(error)
+                }
                     
                 } else if (per_type === "fill") {
                     const { forDomain } = req.body;
@@ -115,7 +130,7 @@ function requestsController() {
                     }
                     
                     const afterAccepted1 = await Request.findOneAndUpdate(
-                        { address: from_address },
+                        { address: new RegExp(`^${from_address}$`, 'i') },
                         {
                             $pullAll: {
                                 received: [to_address],
@@ -127,7 +142,7 @@ function requestsController() {
                     console.log(afterAccepted1)
 
                     const afterAccepted2 = await Request.findOneAndUpdate(
-                        { address: to_address },
+                        { address: new RegExp(`^${to_address}$`, 'i') },
                         {
                             $pullAll: {
                                 sent: [from_address],
@@ -138,7 +153,7 @@ function requestsController() {
 
                     console.log(afterAccepted2)
 
-                    res.json("success in fill per")
+                    res.redirect('/receivedRequests')
                     // res.json(afterAccepted1, afterAccepted2)
 
                 }
@@ -155,7 +170,7 @@ function requestsController() {
                 const { to_address } = req.body;
 
                 const afterRejected1 = await Request.findOneAndUpdate(
-                    { address: from_address },
+                    { address: new RegExp(`^${from_address}$`, 'i') },
                     {
                         $pullAll: {
                             received: [to_address],
@@ -164,8 +179,10 @@ function requestsController() {
                     { new: true }
                 );
 
+                console.log(afterRejected1)
+
                 const afterRejected2 = await Request.findOneAndUpdate(
-                    { address: to_address },
+                    { address: new RegExp(`^${to_address}$`, 'i') },
                     {
                         $pullAll: {
                             sent: [from_address],
@@ -174,7 +191,10 @@ function requestsController() {
                     { new: true }
                 );
 
-                res.json("request successfully Rejected")
+                console.log(afterRejected2)
+
+                res.redirect('/receivedRequests')
+                // res.json("request successfully Rejected")
                 // res.json(afterRejected1, afterRejected2)
 
             } catch (error) {

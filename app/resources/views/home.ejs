@@ -17,37 +17,41 @@
         </p>
     </div>
 
-    <div class="row container">
-        <div class="col-md-4">
-            <div>
-                <img src="/images/edu.jpg" class="card-img-1" style="height: 25vh; width: 20vw ;"
-                    alt="education details">
-            </div>
-            <div class="center" style="margin-top: 10px">
+    <div class="row container d-inline-flex justify-content-around">
+
+        <div class="col-md-4 card text-center" style="width: 15rem;">
+            <img src="/images/edu.jpg" class="card-img-top" alt="education details">
+
+            <div class="card-body d-inline-flex justify-content-around" style="margin-top: 10px">
                 <form action="/govDetails/<%= userSeen===null?'':userSeen %>">
-                    <button type="submit" class="btn btn-outline-primary">Government Details</button>
+                    <button type="submit" class="card-link btn btn-outline-primary">Government Details</button>
                 </form>
             </div>
         </div>
-        <div class="col-md-4">
-            <div>
-                <img src="/images/govern.jpg" class="card-img-1" style="height: 25vh; width: 20vw ;"
-                    alt="government details">
-            </div>
-            <div class="center" style="margin-top: 10px">
+
+        <div class="col-md-4 card text-center" style="width: 15rem;">
+
+            <img src="/images/govern.jpg" class="card-img-top" alt="education details">
+
+            <div class="card-body d-inline-flex justify-content-around" style="margin-top: 10px">
                 <form action="/eduDetails/<%= userSeen===null?'':userSeen %>">
-                    <button type="submit" class="btn btn-outline-primary">Education Details</button>
+                    <button type="submit" class="card-link btn btn-outline-primary">Education Details</button>
+                </form>
+                <form action="/fillEduDetails/<%= userSeen===null?'':userSeen %>">
+                    <button type="submit" class="card-link btn btn-outline-primary">Fill</button>
                 </form>
             </div>
         </div>
-        <div class="col-md-4">
-            <div>
-                <img src="/images/medi.jpg" class="card-img-1" style="height: 25vh; width: 20vw ;"
-                    alt="medical details">
-            </div>
-            <div class="center" style="margin-top: 10px">
+
+        <div class="col-md-4 card text-center" style="width: 15rem;">
+            <img src="/images/medi.jpg" class="card-img-top" alt="medical details">
+
+            <div class="card-body d-inline-flex justify-content-around" style="margin-top: 10px">
                 <form action="/medicalDetails/<%= userSeen===null?'':userSeen %>">
-                    <button type="submit" class="btn btn-outline-primary">Medical Details</button>
+                    <button type="submit" class="card-link btn btn-outline-primary">Medical Details</button>
+                </form>
+                <form action="/fillMedicalDetails/<%= userSeen===null?'':userSeen %>">
+                    <button type="submit" class="card-link btn btn-outline-primary">Fill</button>
                 </form>
             </div>
         </div>
@@ -55,24 +59,30 @@
 
     <div class="row container" style="margin-top: 40px">
         <div class="col-md-2"></div>
-        <div class="col-md-4">
-            <div>
-                <img src="/images/bank.jpg" class="card-img-1" style="height: 25vh; width: 20vw ;" alt="bank details">
-            </div>
-            <div class="center" style="margin-top: 10px">
+        <div class="col-md-4 card text-center" style="width: 15rem;">
+
+            <img src="/images/bank.jpg" class="card-img-top" alt="bank details">
+
+            <div class="card-body d-inline-flex justify-content-around" style="margin-top: 10px">
                 <form action="/bankDetails/<%= userSeen===null?'':userSeen %>">
-                    <button type="submit" class="btn btn-outline-primary">Bank Details</button>
+                    <button type="submit" class="card-link btn btn-outline-primary">Bank Details</button>
+                </form>
+                <form action="/fillBankDetails/<%= userSeen===null?'':userSeen %>">
+                    <button type="submit" class="card-link btn btn-outline-primary">Fill</button>
                 </form>
             </div>
         </div>
-        <div class="col-md-4">
-            <div>
-                <img src="/images/busi.jpg" class="card-img-1" style="height: 25vh; width: 20vw ;"
-                    alt="business details">
-            </div>
-            <div class="center" style="margin-top: 10px">
+
+        <div class="col-md-4 card text-center mx-5" style="width: 15rem;">
+            <!-- <div> -->
+            <img src="/images/busi.jpg" class="card-img-top" alt="business details">
+            <!-- </div> -->
+            <div class="card-body d-inline-flex justify-content-around" style="margin-top: 10px">
                 <form action="/businessDetails/<%= userSeen===null?'':userSeen %>">
-                    <button type="submit" class="btn btn-outline-primary">Business Details</button>
+                    <button type="submit" class="card-link btn btn-outline-primary">Business Details</button>
+                </form>
+                <form action="/fillBusinessDetails/<%= userSeen===null?'':userSeen %>">
+                    <button type="submit" class="card-link btn btn-outline-primary">Fill</button>
                 </form>
             </div>
         </div>

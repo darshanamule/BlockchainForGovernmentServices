@@ -4,25 +4,21 @@ const { MedicalContract } = require("../web3/web3Config")
 
 function medicalDetailsController() {
     return {
-        grantViewPermission(req, res) {
-            const { to_address } = req.body;
-            const from_address = req.headers.auth;
-            MedicalContract.methods.grantViewPermissionLoc(to_address).send({ from: from_address }).then((response) => {
-                res.json(response)
-            }).catch(err => res.json(err));
-        },
 
-        grantMedicalDetailsFillPermisssion(req, res) {
-            const { to_address } = req.body;
-            const from_address = req.headers.auth;
-            // from_address should be of owner for successful transaction
-            MedicalContract.methods.grantMedicalDetailsFillPermisssionLoc(to_address).send({ from: from_address }).then((response) => {
-                res.json(response)
-            }).catch(err => res.json(err));
+        loadMedicalDetailsForm(req, res){
+            const uniqueId = req.params.uniqueId;
+            res.render('formsFill/fillMedicalDetails', { uniqueId });
         },
 
         retrieveMedDetails(req, res) {
-            const to_address = req.params.id;
+
+            let to_address;
+
+            if(!req.params.id){
+                to_address = req.headers.auth;
+            } else {
+                to_address = req.params.id;
+            }
             const from_address = req.headers.auth;
             MedicalContract.methods.retrieveMD(to_address).call({ from: from_address }).then((response) => {
                 const medDetails = {
@@ -35,7 +31,7 @@ function medicalDetailsController() {
                     insurance: response.insurance,
                     bloodGrp: response.bloodGrp
                 }
-                res.json(medDetails)
+                res.render('formsGET/getMedicalDetails', { medDetails: medDetails, uniqueId: to_address})
             }).catch(err => res.json(err));
         },
 
@@ -56,7 +52,7 @@ function medicalDetailsController() {
             MedicalContract.methods.insertMD(tpaName, tpaId, insuredCode, insuredName, prevPolicyNo, mediclaimCpny, insurance, bloodGrp, to_address)
                 .send({ from: from_address, gas: 3000000 })
                 .then((response) => {
-                    res.json(response)
+                    res.redirect(`/medicalDetails/${to_address}`);
                 }).catch(err => res.json(err));
         }
     }
