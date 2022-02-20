@@ -14,9 +14,9 @@
     <div class="container" style="margin-top: 50px;">
     </div>
 
-    <div style="text-align:right;">
-        Medical Details
-    </div>
+    <% if(medDetails.mediclaimCpny === '') { %>
+        <h5 class="container">No Data Available....</h5>
+    <% } else { %>
     <table class="table table-borderless container d-flex justify-content-around">
         <tbody>
             <tr>
@@ -94,6 +94,7 @@
 
         </tbody>
     </table>
+    <% } %>
 
     <footer>
         <%- include('../partials/footer'); %>
