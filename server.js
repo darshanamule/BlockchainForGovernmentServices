@@ -36,8 +36,12 @@ app.use((req, res, next) => {
     if(req.path === '/'){
         next();
     } else {
-        req.headers.auth = req.cookies.auth;
-        next();
+        if(!req.cookies.auth){
+            res.render('loginAlert')
+        } else {
+            req.headers.auth = req.cookies.auth;
+            next();
+        }  
     }
 });
 

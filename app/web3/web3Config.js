@@ -13,12 +13,12 @@ web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
 
 // Connecting to smart contract
 // creating instances
-const AcAddress = '0x35F25D8Ab2A7e358dd72Af8857FC08a39388436E';
-const BankAddress = '0xCFa77Dc31467fC70f939716B515B0D4188b8EcC1';
-const BusAddress = '0xf5b46C75f53245199714046f20301F898a9234Fd';
-const EduAddress = '0xcDB169CA7f99B502f684505183456d604DdB1E11';
-const GovAddress = '0x868D6b11Dd50a51aF83187FfA25b84A8F67baf01';
-const MedAddress = '0x5bdcD3C3Ee1F0fe7d2A445d4401ccAbe4883B368';
+const AcAddress = '0x7Ce69ee1bfCeF78bD390448160F569441AD91a5a';
+const BankAddress = '0xFEefbCcc84Ed69944000d537994528247313D7B3';
+const BusAddress = '0xb61F55f74620FC5e1d3F8a7E5A5043D672B97A36';
+const EduAddress = '0xA9B2B8569A75f00b7d932cc8f694FA6EF809a91E';
+const GovAddress = '0x2911cBBB30F4319482FbE51C71978DbC63Cad9F7';
+const MedAddress = '0x79BeB7586560B8d02Ecb4dfE636FEa13BaA0E39e';
 
 let BankContract = new web3.eth.Contract( bankABI, BankAddress );
 let BusinessContract = new web3.eth.Contract( businessABI, BusAddress);

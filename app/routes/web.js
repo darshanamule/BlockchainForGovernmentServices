@@ -21,12 +21,14 @@ router.get('/bankDetails/:id', auth, bankDetailsController().retrieveBankDetails
 router.get('/bankDetails', auth, bankDetailsController().retrieveBankDetails)
 router.post('/fillBankDetails', auth, bankFillAuth, bankDetailsController().insertBankDetails)
 router.get('/fillBankDetails/:uniqueId', auth, bankFillAuth, bankDetailsController().loadBankDetailsForm)
+router.get('/fillBankDetails', auth, bankFillAuth, bankDetailsController().loadBankDetailsForm)
 
 // Business Details
 router.get('/businessDetails/:id', auth, businessDetailsController().retrieveBusDetails)
 router.get('/businessDetails', auth, businessDetailsController().retrieveBusDetails)
 router.post('/fillBusinessDetails', auth, busFillAuth, businessDetailsController().insertBusDetails)
 router.get('/fillBusinessDetails/:uniqueId', auth, busFillAuth, businessDetailsController().loadBusDetailsForm)
+router.get('/fillBusinessDetails', auth, busFillAuth, businessDetailsController().loadBusDetailsForm)
 
 // Government Details
 router.get('/govDetails', govDetailsController().loadGovDetails)
@@ -52,17 +54,24 @@ router.get('/fillDomicileDetails/:uniqueId', auth, govFillAuth, govDetailsContro
 router.get('/fillIncomeDetails/:uniqueId', auth, govFillAuth, govDetailsController().loadIncomeDetailsForm)
 router.get('/fillCasteDetails/:uniqueId', auth, govFillAuth, govDetailsController().loadCasteDetailsForm)
 
+router.get('/fillBirthDetails', auth, govFillAuth, govDetailsController().loadBirthDetailsForm)
+router.get('/fillDomicileDetails', auth, govFillAuth, govDetailsController().loadDomicileDetailsForm)
+router.get('/fillIncomeDetails', auth, govFillAuth, govDetailsController().loadIncomeDetailsForm)
+router.get('/fillCasteDetails', auth, govFillAuth, govDetailsController().loadCasteDetailsForm)
+
 // Education Details
 router.get('/eduDetails/:id', auth, eduDetailsController().retrieveEduDetails)
 router.get('/eduDetails', auth, eduDetailsController().retrieveEduDetails)
 router.post('/fillEduDetails', auth, eduFillAuth, eduDetailsController().insertEduDetails)
 router.get('/fillEduDetails/:uniqueId', auth, eduFillAuth, eduDetailsController().loadEduDetailsForm)
+router.get('/fillEduDetails', auth, eduFillAuth, eduDetailsController().loadEduDetailsForm)
 
 // Medical Details
 router.get('/medicalDetails/:id', auth, medicalDetailsController().retrieveMedDetails)
 router.get('/medicalDetails', auth, medicalDetailsController().retrieveMedDetails)
 router.post('/fillMedicalDetails', auth, medFillAuth, medicalDetailsController().insertMedDetails)
 router.get('/fillMedicalDetails/:uniqueId', auth, medFillAuth, medicalDetailsController().loadMedicalDetailsForm)
+router.get('/fillMedicalDetails', auth, medFillAuth, medicalDetailsController().loadMedicalDetailsForm)
 
 // Requests 
 router.post('/grantViewOrFillPer', requestsController().acceptRequests)
